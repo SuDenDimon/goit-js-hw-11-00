@@ -25,14 +25,15 @@ const galleryCfg = {
       let lightbox = new SimpleLightbox('.gallery a', galleryCfg);
       lightbox.on('show.simplelightbox', function () {});
 
+      hideLoader();
+
 formEl.addEventListener('submit', event => {
     event.preventDefault();
     const inputValue = event.currentTarget.elements.image.value.trim();
     imgGallery.innerHTML = '<div class="loader"></div>';
 
-    hideLoader();
-
     getImage(inputValue).then(data =>{
+        hideLoader();
       const markup = imageTemplate(data.hits);
        imgGallery.innerHTML = markup; 
        lightbox.refresh();
@@ -45,8 +46,10 @@ formEl.addEventListener('submit', event => {
             message: "Sorry, there are no images matching your search query. Please try again!",
         })
       }
+      
     })
     .catch(error => {
+
         iziToast.error({
           maxWidth: '432px',
           height: '48px',
@@ -55,8 +58,7 @@ formEl.addEventListener('submit', event => {
           message: "Sorry, there are no images matching your search query. Please try again!",
         })
           })
-  .finally(() => {
-    showLoader()           
+  .finally(() => {       
     formEl.reset()
-  })
+  });
   });
