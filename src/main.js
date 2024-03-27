@@ -11,6 +11,8 @@ export const imgGallery = document.querySelector(".gallery");
 
 export const formEl = document.querySelector('.form');
 
+const loader = document.querySelector('.loader');
+
 function hideLoader() {
     loader.classList.add("hidden");
 }
@@ -44,7 +46,15 @@ formEl.addEventListener('submit', event => {
         })
       }
     })
-
+    .catch(error => {
+        iziToast.error({
+          maxWidth: '432px',
+          height: '48px',
+          color: 'red',
+          position: 'topRight',
+          message: "Sorry, there are no images matching your search query. Please try again!",
+        })
+          })
   .finally(() => {
     showLoader()           
     formEl.reset()
