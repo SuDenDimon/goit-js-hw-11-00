@@ -11,6 +11,12 @@ export const imgGallery = document.querySelector(".gallery");
 
 export const formEl = document.querySelector('.form');
 
+function hideLoader() {
+    loader.classList.add("hidden");
+}
+function showLoader() {
+    loader.classList.remove("hidden");
+}
 const galleryCfg = {
         captionsData: 'alt',
       };
@@ -21,7 +27,9 @@ formEl.addEventListener('submit', event => {
     event.preventDefault();
     const inputValue = event.currentTarget.elements.image.value.trim();
     imgGallery.innerHTML = '<div class="loader"></div>';
-    
+
+    hideLoader();
+
     getImage(inputValue).then(data =>{
       const markup = imageTemplate(data.hits);
        imgGallery.innerHTML = markup; 
@@ -36,16 +44,9 @@ formEl.addEventListener('submit', event => {
         })
       }
     })
-    // .catch(error => {
-    //   iziToast.error({
-    //     maxWidth: '432px',
-    //     height: '48px',
-    //     color: 'red',
-    //     position: 'topRight',
-    //     message: "Sorry, there are no images matching your search query. Please try again!",
-    //   })
-    //     })
+
   .finally(() => {
+    showLoader()           
     formEl.reset()
   })
   });
